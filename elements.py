@@ -2,8 +2,8 @@
 
 
 def create_fire():
-    return "Earth element created"
+    return "Fire element created"
 
 
-def create_air():
+def create_water():
     return "Water element created"
