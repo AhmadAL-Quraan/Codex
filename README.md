@@ -20,12 +20,13 @@
     3) `import package.submodel`: In this case if the submodel exist, it will won't go to `__init__` to search for it.
   
 
-* `__init__.py`: Is the first file python will search for when you import **all** modules from a package.
+* `__init__.py`: Is the first file python will search for when you import **all** modules from a package or the package itself.
   
     ```python 
-    from package import *
+    from package import * #or 
+    import package
     ```
-    There is a variable named `__all__`, which is a list that determines which packages should be imported. If not specified, any package that doesn't start with `_`, will be imported . 
+    There is a variable named `__all__`, which is a list that determines which packages should be imported when you import all of packages from a package using *, `from package import *`. If not specified, any package that exist inside that package and doesn't start with `_`, will be imported. 
 
 >`__init__.py` is not searched when accessing subbmodels like `from alchemy import elements`, it only will be searched when `import alchemy` issued, and `__all__` will only be used when `from alchemy import *`
 
@@ -37,3 +38,11 @@ import alchemy
 alchemy.elements.create_earth() # Even thow create_earth is not in __init__
 ```
 
+
+* In directory named `alchemy`, if you imported in `__init__` an internal package(in current directory not in root for example) like `from .package import class/function/...` then this will be called an **alias** if u used it in another file from `alchemy` package.
+
+   So in another file if u did:
+```python 
+import alchemy
+alchemy.class # This is called alias to this class imported from previous package
+```
