@@ -5,7 +5,7 @@
 
 ## Concepts
 
-* When you write `import package`, python will search for this package in project root directory.
+* In python `import package` -> This called **absolute path** starts from **root** of the project, while `from . import package` or `from .package import something` -> both of these called **relative imports**.
 
 * Type of import in python:
   
