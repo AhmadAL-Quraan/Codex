@@ -9,7 +9,7 @@
 
 * Type of import in python:
   
-    1) `import package`: This will go directly to `__init__` in this package.
+    1) `import package`: if package was a directory, this will go directly to `__init__` in this package.
     2) `from package import package/function/class,..`: 
 
        If name is a module (file) → it imports that module.
