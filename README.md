@@ -118,3 +118,88 @@ from module import *
 * pollutes namespace
 
 * hides where things come from
+
+
+
+## Circular import 
+
+what happened when you try to call modules that loads each other 
+
+### 1) If both of them calls their full modules -> It will work fine 
+light_spellbook.py 
+```python 
+
+from . import light_validator
+
+
+def light_spell_allowed_ingredients() -> list:
+    return ["earth", "air", "fire", "water"]
+
+
+def light_spell_record(spell_name: str, ingredients: str) -> str:
+    result = light_validator.validate_ingredients(ingredients)
+
+    if "VALID" in result:
+        return f"Spell recorded: {spell_name} ({result})"
+    else:
+        return f"Spell rejected: {spell_name} ({result})"
+```
+
+light_validator.py 
+```python
+from . import light_spellbook
+
+
+def validate_ingredients(ingredients: str) -> str:
+    ing_list: list = light_spellbook.light_spell_allowed_ingredients()
+    ingredients_lower = ingredients.lower()
+    for ing in ing_list:
+        if ing in ingredients_lower:
+            return f"{ingredients} - Valid"
+
+    return f"{ingredients} - INVALID"
+
+```
+
+Both of them are trying to call each other but in this case because there is no specific function called, so no **errors** will happen.
+
+
+
+### 2) If one of them called a specific function in the other -> Error (circular import)
+
+light_spellbook.py 
+```python 
+
+from .light_validator import validate_ingredients
+
+
+def light_spell_allowed_ingredients() -> list:
+    return ["earth", "air", "fire", "water"]
+
+
+def light_spell_record(spell_name: str, ingredients: str) -> str:
+    result = light_validator.validate_ingredients(ingredients)
+
+    if "VALID" in result:
+        return f"Spell recorded: {spell_name} ({result})"
+    else:
+        return f"Spell rejected: {spell_name} ({result})"
+```
+
+light_validator.py 
+```python
+from . import light_spellbook
+
+
+def validate_ingredients(ingredients: str) -> str:
+    ing_list: list = light_spellbook.light_spell_allowed_ingredients()
+    ingredients_lower = ingredients.lower()
+    for ing in ing_list:
+        if ing in ingredients_lower:
+            return f"{ingredients} - Valid"
+
+    return f"{ingredients} - INVALID"
+
+```
+
+* It tries to make a reference to the exact function **validate_ingredients**, but since it didn't load fully (partial load), nothing will be done and infinite calling will happen.
