@@ -1,10 +1,11 @@
-import alchemy
+from alchemy.elements import create_air
+from alchemy.elements import create_earth
 import elements
 
 
 def healing_potion():
-    return f"Healing potion brewed with ’{alchemy.create_earth()}’\
-and ’{alchemy.create_air()}’"
+    return f"Healing potion brewed with ’{create_earth()}’\
+and ’{create_air()}’"
 
 
 def strength_potion():

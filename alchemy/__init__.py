@@ -3,8 +3,9 @@
 from .elements import create_air
 
 from .transmutation.recipes import lead_to_gold
-from .elements import create_earth
-from .potions import healing_potion
+
+# This is an alias
+from .potions import healing_potion as heal
 from .potions import strength_potion
 
 # __all__ = list defines what is allowed to be imported
@@ -13,8 +14,7 @@ from .potions import strength_potion
 
 __all__ = [
     "create_air",
-    "create_earth",
     "lead_to_gold",
-    "healing_potion",
     "strength_potion",
+    "heal",
 ]
