@@ -121,11 +121,11 @@ from module import *
 
 
 
-## Circular import 
+### Circular import 
 
 what happened when you try to call modules that loads each other 
 
-### 1) If both of them calls their full modules -> It will work fine 
+#### 1) If both of them calls their full modules -> It will work fine 
 light_spellbook.py 
 ```python 
 
@@ -165,7 +165,7 @@ Both of them are trying to call each other but in this case because there is no 
 
 
 
-### 2) If one of them called a specific function in the other -> Error (circular import)
+#### 2) If one of them called a specific function in the other -> Error (circular import)
 
 light_spellbook.py 
 ```python 
@@ -203,3 +203,40 @@ def validate_ingredients(ingredients: str) -> str:
 ```
 
 * It tries to make a reference to the exact function **validate_ingredients**, but since it didn't load fully (partial load), nothing will be done and infinite calling will happen.
+
+
+### Relative imports 
+
+* Any file that uses relative imports (. or ..) cannot be run directly as a standalone script using python file.py
+
+
+```python3 
+
+from ...elements import create_fire
+from ..elements import create_air
+from .. import potions
+
+
+def lead_to_gold():
+    return f"Recipe transmuting Lead to Gold: brew ’{create_air()}’\
+and ’{potions.strength_potion()} mixed with ’{create_fire()}’"
+
+
+if __name__ == "__main__":
+    print("Here")
+```
+
+* This file will give this error if tried to run as a script: 
+```python3
+Traceback (most recent call last):
+  File "/home/ahmadquraan/Documents/my_work/projects/42-core-projects-shared/projects/python/C
+odex/alchemy/transmutation/recipes.py", line 1, in <module>
+    from ...elements import create_fire
+ImportError: attempted relative import with no known parent package
+
+```
+
+
+### `__init__.py`
+
+* Any package(directory has .py files) that being imported, will run firstly `__init__`, either imported by absolute or relative path
